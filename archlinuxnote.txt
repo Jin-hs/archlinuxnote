@@ -1,0 +1,101 @@
+连wifi步骤
+方法1：
+1.ip link （显示端口如wlan0）
+2.ip link set xxx（如wlan0） up
+3.wpa_passphrase Tenda_C5CD20 15272692659 >wifi.conf    #将数据导出到配置文件文件名随便
+4.wap_supplicant -c wifi.conf -i wlan0 &                #&   是后台运行的意思
+5.dhcpcd &						#分配动态IP
+
+
+没有声音问题
+先安装alsa-utils
+然后再参考https://segmentfault.com/a/1190000002918394
+
+
+安装virtualbox
+安装后构建虚拟机时总是出错网上找了好久都没有解决问题准备放弃了后来意外看到两个博客解决问题了
+1.https://blog.csdn.net/u014025444/article/details/94151354
+2.https://blog.csdn.net/weixin_39465823/article/details/85699058
+
+安装词典goldendict
+词库：http://download.huzheng.org/zh_CN/
+参考：https://blog.csdn.net/szx123_/article/details/97807074
+
+关于vim中文输入问题:
+应该是输入法问题采用fcitx google pinyin 使用正常
+后来在切换zsh时出现了vim中文部分乱码参考https://www.cnblogs.com/starfish29/p/11156333.html
+具体有
+在/etc/vimrc末尾添加
+set fileencodings=utf-8,ucs-bom,gb18030,gbk,gb2312,cp936
+set termencoding=utf-8
+set encoding=utf-8
+
+安装的文件管理器:
+1.ranger 2.mc 3.vifm
+ranger预览图片（2020.09.06）
+参考https://www.dazhuanlan.com/2020/03/07/5e6314cf67121/
+具体有
+1：ranger --copy-config=all #生成ranger配置文件
+2：安装w3m
+3：修改~/.config/ranger/rc.conf
+   set preview_images true
+   set preview_images_method w3m
+
+samba配置(2020.09.06)
+1.默认没有配置文件。参考archlinux复制wiki上的默认smb.conf到/etc/samba/位置
+2.添加用户 
+命令：smbpasswd -a xiaohao
+3.查询用户
+命令:pdbedit -L -v
+4.开启samba服务
+命令:systemctl start nmb.service   #参考https://www.jianshu.com/p/15893eece2ee
+     systemctl start smb.service
+
+触摸板点触确定
+主要参考archlinux wiki:https://wiki.archlinux.org/index.php/Libinput_(%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87)
+具体操作为:
+1.建立文件:/etc/X11/xorg.conf.d/30-touchpad.conf
+2.文件内容如下:
+Section "InputClass"
+    Identifier "devname"
+    Driver "libinput"
+    Option "Tapping" "on" #开启触摸以点击
+EndSection
+
+切换shell
+1.查看
+cat /etc/shells
+2.切换
+chsh -s /bin/zsh username #username可以不加
+添加oh-my-zsh真香
+参考https://www.cnblogs.com/dhcn/p/11666845.html
+其中手动操作有效,具体:
+1. git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
+2. cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc
+常用插件autojump
+        zsh-autosuggestions
+        zsh-syntax-highlighting
+	web-search # 直接终端调用浏览器$:biadu 天气 (打开百度并搜索:天气)
+	extract  解压所有格式文件
+ 别名:参考:https://www.jianshu.com/p/3cfe8337aba5  #这个博客写得挺好
+例子 alias v='vim' #就是输v代表输vim
+
+
+一个不错的终端词典sdcv
+直接pacman就能安装
+安装完直接将字典文件解压到./stardict/dic 
+字典下载链接: http://download.huzheng.org/zh_CN/
+
+旋转屏幕命令:
+xrandr -o left #左旋90 
+xrandr -o right
+xrandr -o inverted #上下翻转
+xrandr -o normal # 回到正常角度
+
+更改按键位置:
+1.安装xorg
+2.xmodmap -pke > ~/.xmodmap #将键位信息输出到.xmodmap文件
+3.xev 			    #可以查看所按按键对应的编号
+4.xmodmap ~./xmodmap  	    #使用修改后的按键布局
+
+
