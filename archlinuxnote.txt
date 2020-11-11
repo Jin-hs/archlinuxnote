@@ -2,7 +2,7 @@
 方法1：
 1.ip link （显示端口如wlan0）
 2.ip link set xxx（如wlan0） up
-3.wpa_passphrase Tenda_C5CD20 15272692659 >wifi.conf    #将数据导出到配置文件文件名随便
+3.wpa_passphrase Tenda_C5CD20 密码 >wifi.conf    #将数据导出到配置文件文件名随便
 4.wap_supplicant -c wifi.conf -i wlan0 &                #&   是后台运行的意思
 5.dhcpcd &						#分配动态IP
 
